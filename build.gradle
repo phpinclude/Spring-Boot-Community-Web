@@ -31,6 +31,16 @@ dependencies {
 	runtime('com.h2database:h2')
 	runtime('org.springframework.boot:spring-boot-devtools')
 	
-	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	
+	//compileOnly('org.projectlombok:lombok')
+	//testAnnotationProcessor 'org.projectlombok:lombok:1.18.6'
+
+	compileOnly 'org.projectlombok:lombok:1.18.6'
+    annotationProcessor 'org.projectlombok:lombok:1.18.6'
+    testCompileOnly 'org.projectlombok:lombok:1.18.6'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.6'
+    
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.12'
 }
