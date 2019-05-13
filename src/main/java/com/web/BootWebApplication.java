@@ -15,6 +15,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.web.domain.Board;
 import com.web.domain.User;
 import com.web.domain.enums.BoardType;
+import com.web.repository.BoardRepository;
+import com.web.repository.UserRepository;
 @SpringBootApplication
 public class BootWebApplication implements WebMvcConfigurer {
 //
@@ -30,26 +32,26 @@ public class BootWebApplication implements WebMvcConfigurer {
 //		argumentResolvers.add(userArgumentResolver);
 //	}
 
-//	@Bean
-//	public CommandLineRunner runner(UserRepository userRepository, BoardRepository boardRepository) {
-//		return (args) -> {
-//			User user = userRepository.save(User.builder()
-//					.name("havi")
-//					.password("test")
-//					.email("havi@gmail.com")
-//					.createdDate(LocalDateTime.now())
-//					.build());
-//
-//			IntStream.rangeClosed(1, 200).forEach(index ->
-//				boardRepository.save(Board.builder()
-//						.title("게시글"+index)
-//						.subTitle("순서"+index)
-//						.content("컨텐츠")
-//						.boardType(BoardType.free)
-//						.createdDate(LocalDateTime.now())
-//						.updatedDate(LocalDateTime.now())
-//						.user(user).build())
-//			);
-//		};
-//	}
+	@Bean
+	public CommandLineRunner runner(UserRepository userRepository, BoardRepository boardRepository) {
+		return (args) -> {
+			User user = userRepository.save(User.builder()
+					.name("havi")
+					.password("test")
+					.email("havi@gmail.com")
+					.createdDate(LocalDateTime.now())
+					.build());
+
+			IntStream.rangeClosed(1, 200).forEach(index ->
+				boardRepository.save(Board.builder()
+						.title("게시글"+index)
+						.subTitle("순서"+index)
+						.content("컨텐츠")
+						.boardType(BoardType.free)
+						.createdDate(LocalDateTime.now())
+						.updatedDate(LocalDateTime.now())
+						.user(user).build())
+			);
+		};
+	}
 }
