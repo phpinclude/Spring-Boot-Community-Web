@@ -29,6 +29,9 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	
+	// thymeleaf 확장 표현식을 사용하기 위해 추가 (${#temporals.format()}표현이 안된다.) 
+	compile('org.thymeleaf.extras:thymeleaf-extras-java8time')
+	
 	runtime('com.h2database:h2')
 	runtime('org.springframework.boot:spring-boot-devtools')
 	

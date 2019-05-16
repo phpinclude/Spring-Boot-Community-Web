@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.web.annotation.SocialUser;
 import com.web.domain.User;
 
 @Controller
@@ -21,24 +22,11 @@ public class LoginController {
 		return "login";
 	}
 	
-	@GetMapping( value = "/facebook/complete")
-	public String loginComplete(HttpSession session) {
+	@GetMapping( value = {"/{facebook|google|kakao}/complete"})
+	public String loginComplete(@SocialUser User user) {
 		
 		System.out.println("loginComplate call");
 		
-		OAuth2Authentication authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
-		
-		Map<String, String> map = (HashMap<String, String>) authentication.getUserAuthentication().getDetails();
-		
-		System.out.println(map);
-		
-		session.setAttribute("user", User.builder()
-				.name(map.get("name"))
-				.email(map.get("email"))
-				.principal(map.get("id"))
-				.createdDate(LocalDateTime.now())
-				.build()
-				);
 		return "redirect:/board/list";
 	}
 }

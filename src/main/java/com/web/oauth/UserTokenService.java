@@ -35,5 +35,4 @@ public class UserTokenService extends UserInfoTokenServices {
             return AuthorityUtils.createAuthorityList(this.socialType);
         }
     }
-
 }

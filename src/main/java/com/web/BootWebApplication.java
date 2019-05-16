@@ -18,20 +18,22 @@ import com.web.domain.User;
 import com.web.domain.enums.BoardType;
 import com.web.repository.BoardRepository;
 import com.web.repository.UserRepository;
+import com.web.resolver.UserArgumentResolver;
+
 @SpringBootApplication
 public class BootWebApplication extends WebMvcConfigurerAdapter {
-//
-//	@Autowired
-//	private UserArgumentResolver userArgumentResolver;
+
+	@Autowired
+	private UserArgumentResolver userArgumentResolver;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BootWebApplication.class, args);
 	}
 
-//	@Override
-//	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-//		argumentResolvers.add(userArgumentResolver);
-//	}
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+		argumentResolvers.add(userArgumentResolver);
+	}
 
 	@Bean
 	public CommandLineRunner runner(UserRepository userRepository, BoardRepository boardRepository) {

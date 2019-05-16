@@ -28,7 +28,9 @@ import com.web.domain.enums.SocialType;
 import com.web.oauth.ClientResources;
 import com.web.oauth.UserTokenService;
 
-
+import static com.web.domain.enums.SocialType.FACEBOOK;
+import static com.web.domain.enums.SocialType.GOOGLE;
+import static com.web.domain.enums.SocialType.KAKAO;
 
 @Configuration
 @EnableWebSecurity
@@ -46,6 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     	http
     		.authorizeRequests()
     			.antMatchers("/","/login/**","/css/**","/images/**","/js/**","/console/**").permitAll()
+    			.antMatchers("/facebook").hasAuthority(FACEBOOK.getRoleType())
+                .antMatchers("/google").hasAuthority(GOOGLE.getRoleType())
+                .antMatchers("/kakao").hasAuthority(KAKAO.getRoleType())
     			.anyRequest().authenticated()
     		.and()
     			.headers().frameOptions().disable()
@@ -79,13 +84,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CompositeFilter filter = new CompositeFilter();
         List<Filter> filters = new ArrayList<>();
         filters.add(oauth2Filter(facebook(), "/login/facebook", SocialType.FACEBOOK));
-//        filters.add(oauth2Filter(google(), "/login/google", SocialType.GOOGLE));
-//        filters.add(oauth2Filter(kakao(), "/login/kakao", SocialType.KAKAO));
+        filters.add(oauth2Filter(google(), "/login/google", SocialType.GOOGLE));
+        filters.add(oauth2Filter(kakao(), "/login/kakao", SocialType.KAKAO));
         filter.setFilters(filters);
         return filter;
     }
     
     private Filter oauth2Filter(ClientResources client, String path, SocialType socialType) {
+    	
+    	System.out.println("call path : " + path);
         OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(path);
         OAuth2RestTemplate template = new OAuth2RestTemplate(client.getClient(), oAuth2ClientContext);
 
@@ -102,15 +109,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new ClientResources();
     }
 
-//    @Bean
-//    @ConfigurationProperties("google")
-//    public ClientResources google() {
-//        return new ClientResources();
-//    }
-//
-//    @Bean
-//    @ConfigurationProperties("kakao")
-//    public ClientResources kakao() {
-//        return new ClientResources();
-//    }
+    @Bean
+    @ConfigurationProperties("google")
+    public ClientResources google() {
+        return new ClientResources();
+    }
+
+    @Bean
+    @ConfigurationProperties("kakao")
+    public ClientResources kakao() {
+        return new ClientResources();
+    }
 }

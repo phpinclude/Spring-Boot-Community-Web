@@ -1,3 +1,6 @@
+server :
+   port : 8081
+
 facebook :
   client :
     clientId : 819138195121444
@@ -11,20 +14,23 @@ facebook :
   resource:
     userInfoUri: https://graph.facebook.com/me?fields=id,name,email,link
 
-#google :
-#  client :
-#    clientId :
-#    clientSecret:
-#    accessTokenUri: https://accounts.google.com/o/oauth2/token
-#    userAuthorizationUri: https://accounts.google.com/o/oauth2/auth
-#    scope: email, profile
-#  resource:
-#    userInfoUri: https://www.googleapis.com/oauth2/v2/userinfo
+google :
+  client :
+    clientId : 753653563470-u274dup0as9dekh3k03jkphlgr9husmu.apps.googleusercontent.com
+    clientSecret: bzfI26id4zk4s5s3Q4btzuRj
+    accessTokenUri: https://www.googleapis.com/oauth2/v4/token
+    userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
+    clientAuthenticationScheme: form
+    scope:
+    - email
+    - profile
+  resource:
+    userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
 
-#kakao :
-#  client :
-#    clientId :
-#    accessTokenUri: https://kauth.kakao.com/oauth/token
-#    userAuthorizationUri: https://kauth.kakao.com/oauth/authorize
-#  resource:
-#    userInfoUri: https://kapi.kakao.com/v1/user/me
+kakao :
+  client :
+    clientId : da7f0333464823618b75fa11dadde196
+    accessTokenUri: https://kauth.kakao.com/oauth/token
+    userAuthorizationUri: https://kauth.kakao.com/oauth/authorize
+  resource:
+    userInfoUri: https://kapi.kakao.com/v1/user/me
