@@ -1,6 +1,7 @@
 package com.web.config;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -98,8 +99,40 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         filter.setRestTemplate(template);
         filter.setTokenServices(new UserTokenService(client, socialType));
-        filter.setAuthenticationSuccessHandler((request, response, authentication) -> response.sendRedirect("/" + socialType.getValue() + "/complete"));
-        filter.setAuthenticationFailureHandler((request, response, exception) -> response.sendRedirect("/error"));
+        filter.setAuthenticationSuccessHandler((request, response, authentication) -> {
+        	System.out.println("setAuthenticationSuccessHandler call !!");
+        	System.out.println("response.getStatus() : " + response.getStatus());
+        	
+        	Collection<String> headerNms = response.getHeaderNames();
+        	for (String headerNm : headerNms) {
+        		System.out.println("response.getHeader('" + headerNm + "') : " + response.getHeader(headerNm));
+        	}
+        	
+        	System.out.println("response.getHeader : " + response.getHeaderNames());
+        	response.sendRedirect("/" + socialType.getValue() + "/complete");
+        	
+        });
+        filter.setAuthenticationFailureHandler((request, response, exception) -> {
+        	
+        	exception.printStackTrace();
+        	
+        	System.out.println("setAuthenticationFailureHandler call !!");
+        	System.out.println("response.getStatus() : " + response.getStatus());
+        	
+        	Collection<String> headerNms = response.getHeaderNames();
+        	for (String headerNm : headerNms) {
+        		System.out.println("response.getHeader('" + headerNm + "') : " + response.getHeader(headerNm));
+        	}
+
+        	if (path.contains("kakao") && response.getStatus() == 200) {
+        		
+        		System.out.println("complete 로~~ ");
+        		response.sendRedirect("/" + socialType.getValue() + "/complete");
+        	}else {
+        		System.out.println("error 로~~ ");
+        		response.sendRedirect("/error");
+        	}
+        });
         return filter;
     }
 

@@ -51,6 +51,9 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     }
 
     private User getUser(User user, HttpSession session) {
+    	
+    	System.out.println("getUser call ~~");
+    	
         if(user == null) {
             try {
                 OAuth2Authentication authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
@@ -61,6 +64,7 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
                 setRoleIfNotSame(user, authentication, map);
                 session.setAttribute("user", user);
             } catch (ClassCastException e) {
+            	e.printStackTrace();
                 return user;
             }
         }
